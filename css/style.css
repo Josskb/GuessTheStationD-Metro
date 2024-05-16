@@ -1,0 +1,34 @@
+#logo {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    display: none;
+}
+
+body {
+    background-color: #8d8b8b;
+    margin: 0;
+    padding: 0;
+    font-family: studiofeixen-variable, studiofeixen, Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-weight: 400;
+    
+}
+
+@font-face {
+    font-family: studiofeixen-variable;
+    src: url(/fonts/studio-feixen-sans-variable.woff2) format("woff2"),
+        url(/fonts/studio-feixen-sans-variable.ttf) format("truetype");
+    font-weight: 400;
+    font-style: normal
+}
+
+
