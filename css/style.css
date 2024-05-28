@@ -79,6 +79,8 @@ body {
     position: relative;
     display: inline-block;
     padding-bottom: 5px;
+    font-family: parisine;
+    font-weight: 1000;
 }
 
 .clickable::after {
@@ -112,6 +114,7 @@ body {
     font-weight: 400;
     font-variation-settings: "wght" 800, "wdth" 125;
     text-align: center;
+    font-family: parisine;
 }
 
 footer{
@@ -122,6 +125,7 @@ footer{
     color: white;
     font-size: 12px;
     margin-bottom: 10px;
+    font-family: parisine;
 
 }
 
@@ -131,23 +135,55 @@ footer{
     border-radius: 10px;
     padding: 20px;
     text-align: center;
+    margin-top: 40px;
+    font-family: parisine;
 
 }
 
 #title_g{
     font-size: 30px;
-    font-weight: 300;
+    font-weight: 800;
     font-variation-settings: "wght" 800, "wdth" 125;
     margin-bottom: 20px;
+    font-family: parisine;
+}
+
+#answer-input{
+    margin-top: 20px;
+    background-color: #12263A;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: parisine;
+}
+
+#submit{
+    background-color: #FFC759;
+    border-radius: 10px;
+    font-weight: 300;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-family: parisine;
+}
+
+#answer{
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
 }
 
 @font-face {
     font-family: studiofeixen-variable;
-    src: url(/fonts/studio-feixen-sans-variable.woff2) format("woff2"),
-        url(/fonts/studio-feixen-sans-variable.ttf) format("truetype");
+    src: url(/fonts/studio-feixen-sans-variable.ttf) format("truetype");
     font-weight: 400;
     font-style: normal
 } 
+
+@font-face {
+    font-family: parisine;
+    src: url(/fonts/parisineregular.otf);
+    font-weight: 400;
+    font-style: normal
+} 
+
 
 
 
