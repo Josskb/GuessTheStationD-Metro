@@ -1,0 +1,18 @@
+
+@keyframes scroll-grow {
+  to {scale: 1 1;}
+}
+
+#metroIllustration{
+    height: 300px;
+    width: 300px;
+
+    scale: 0.1 0.1;   
+    animation: scroll-grow 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+}
+
+footer{
+    padding-top: 1000px;
+}
