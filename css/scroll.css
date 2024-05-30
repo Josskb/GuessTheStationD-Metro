@@ -1,18 +1,33 @@
-
-@keyframes scroll-grow {
-  to {scale: 1 1;}
+@keyframes unblur {
+  to {filter: blur(0px);}
+}
+@keyframes fadeIn {
+  to {filter: opacity(1);}
 }
 
-#metroIllustration{
-    height: 300px;
-    width: 300px;
-
-    scale: 0.1 0.1;   
-    animation: scroll-grow 1s linear infinite;
-    animation-play-state: paused;
-    animation-delay: calc(var(--scroll) * -1s);
+body{
+  min-height: 200vh;
 }
 
-footer{
-    padding-top: 1000px;
+#background-image {
+  z-index: -1;
+  position: relative;
+  animation: unblur 1s linear infinite;
+  animation-play-state: paused;
+  animation-delay: calc(var(--scroll) * -2s);
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  margin-bottom: 100vh;
+  width: 100vw;
+  filter: blur(10px); 
+}
+
+
+#title {
+  animation: fadeIn 1s linear infinite;
+  animation-play-state: paused;
+  animation-delay: calc(var(--scroll) * -2s);
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  filter: opacity(0);
 }
