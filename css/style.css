@@ -2,7 +2,6 @@
     width: 100px;
     height: 100px;
     margin: auto;
-    display: none;
 }
 
 a {
@@ -211,6 +210,31 @@ footer{
     margin-right: 10px;
 }
 
+form {
+    margin-top: 20px;
+    font-family: parisine;
+    font-size: large;
+    font-weight: 800;
+    border-radius: 10%;
+    box-sizing: 0px;
+}
+
+#submitform{
+    background-color: #FFC759;
+    border-radius: 10px;
+    font-weight: 300;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-family: parisine;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+    
+}
+#information{
+    display: flex;
+    flex-direction: column;
+}
 
 
 @font-face {
