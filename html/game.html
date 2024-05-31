@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en"> 
-<div id="custom-cursor">
-    <script src="../javascript/cursor.js"></script>
-</div>
-<script src="../javascript/game.js"></script>
-    <head>
-        <title>Game</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/style.css">
-        <header>
-            <a href="index.html"> 
-                <img id ="RATTP" src="../img/RATTP.png" alt="RATTP">
-            </a>
-            <script src="../javascript/logo.js"></script>
-        </header>
-    </head>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <script defer src="../javascript/logo.js"></script>
+    <script src="../javascript/game.js"></script>
+    <script defer src="../javascript/cursor.js"></script>
+</head>
+
+<header>
+    <a href="index.html">
+        <img id="RATTP" src="../img/RATTP.png" alt="RATTP">
+    </a>
+</header>
 <body>
+    <div id="custom-cursor">
+
+    </div>
+
     <div id="GuessTheStationdiv">
         <h1 id="title_g">Guess the metro station</h1>
         <p>Will you find it ?</p>
@@ -26,10 +30,11 @@
             <input type="text" id="answer" placeholder="Enter your answer">
             <button id="submit">Submit</button>
         </div>
-            <div id="suggestions"></div>
+        <div id="suggestions"></div>
     </div>
 </body>
 <footer>
     <a class="clickable" id="aboutus" href="aboutus.html">About Us</a>
 </footer>
+
 </html>
