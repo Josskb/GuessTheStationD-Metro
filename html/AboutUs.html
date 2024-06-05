@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script defer src="../javascript/cursor.js"></script>
     <meta charset="UTF-8">
@@ -12,50 +13,54 @@
     </a>
     <script src="../javascript/logo.js"></script>
 </header>
+
 <body>
     <div id="custom-cursor"></div>
-    <h1>About Us</h1>
 
-    <p>This small website was developed by RATTPT. </p>
+    <div id="paragraph">
+        <h1>About Us</h1>
 
-    <h2>Our Mission</h2>
-    <p>RATTPT aims to develop small enternaining games for you to play with !</p>
-    <h2>Our Team</h2>
-    <ul>
-        <li>LAUNAY Mattéo</li>
-        <li>KEIB Josselin</li>
-    </ul>
-    <h2>Contact Us</h2>
-    <p>matteo.launay@efrei.net or josselin.keib@efrei.net</p>
+        <p>This small website was developed by RATTPT. </p>
 
-    <form method="post" name="Help form" action="#" class="box" id="Helpform" onsubmit="return submitForm()">
-        <script src="../javascript/form.js"></script>
-        <fieldset id="information">
-            <legend>Your Information</legend>
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div>
-                <label for="surname">Surname:</label>
-                <input type="text" id="surname" name="surname" required>
-            </div>
-            <div>
-                <label for="birth_date">Birth Date:</label>
-                <input type="date" id="birth_date" name="birth_date" required>
-            </div>
-            <div>
-                <label for="mail">Email Address:</label>
-                <input type="email" id="mail" name="mail" required>
-            </div>
-            <div>
-                <label for="feedback">Feedback:</label>
-                <textarea id="feedback" name="feedback" rows="4" required
-                    placeholder="Describe any problems or suggest improvements..."></textarea>
-            </div>
-            <input type="submit" value="Submit" id="submitform">
-        </fieldset>
-    </form>
+        <h2>Our Mission</h2>
+        <p>RATTPT aims to develop small enternaining games for you to play with !</p>
+        <h2>Our Team</h2>
+        <div id="nous">
+            <li>LAUNAY Mattéo</li>
+            <li>KEIB Josselin</li>
+        </div>
+        <h2>Contact Us</h2>
+        <p><strong>matteo.launay@efrei.net </strong>or <strong>josselin.keib@efrei.net</strong></p>
+
+        <form method="post" name="Help form" action="#" class="box" id="Helpform" onsubmit="return submitForm()">
+            <script src="../javascript/form.js"></script>
+            <fieldset id="information">
+                <legend>Your Information</legend>
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="surname">Surname:</label>
+                    <input type="text" id="surname" name="surname" required>
+                </div>
+                <div>
+                    <label for="birth_date">Birth Date:</label>
+                    <input type="date" id="birth_date" name="birth_date" required>
+                </div>
+                <div>
+                    <label for="mail">Email Address:</label>
+                    <input type="email" id="mail" name="mail" required>
+                </div>
+                <div>
+                    <label for="feedback">Feedback:</label>
+                    <textarea id="feedback" name="feedback" rows="4" required
+                        placeholder="Describe any problems or suggest improvements..."></textarea>
+                </div>
+                <input type="submit" value="Submit" id="submitform">
+            </fieldset>
+        </form>
+    </div>
 </body>
 
 <footer>

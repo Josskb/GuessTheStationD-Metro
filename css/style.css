@@ -250,6 +250,28 @@ form {
     text-align: center;
     
 }
+
+#paragraph{
+    background-color: white ;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 100px;
+    padding: 20px;
+    font-family: parisine;
+    text-align: center;
+    color: black;
+}
+#nous{
+    list-style-type: none;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: parisine;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    padding: 10px;
+}
+
 #information{
     display: flex;
     flex-direction: column;
