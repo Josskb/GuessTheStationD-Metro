@@ -111,21 +111,37 @@ function checkAnswer() {
 }
 
 function compareStations(userStation, randomStation) {
-    const keys = ["Station", 'Ligne', 'Rang alpha-bétique', "Date d'ouverture", 'Situation', 'Commune', 'Fréquentation annuelle 2021[2]', 'Particularité(nom précédent)'];
+    const keys = ['Station', 'Ligne', 'Rang alpha-bétique', "Date d'ouverture", 'Situation', 'Commune', 'Fréquentation annuelle 2021[2]'];
     let resultsHTML = '';
+
     keys.forEach(key => {
-        
-        const userValue = userStation[key];
-        const randomValue = randomStation[key];
-        const match = userValue === randomValue;
-        resultsHTML += 
-        `<div style="background-color: ${match ? 'green' : 'red'}; margin: 2px; padding: 5px;">
-            <strong>${key}:</strong> ${userValue} ${match ? '(Match)' : '(No Match)'}
-        </div>`;
+        const userValue = userStation[key] || 'N/A';
+        const randomValue = randomStation[key] || 'N/A';
+        const isMatch = userValue === randomValue;
+        let backgroundColor = isMatch ? 'green' : 'red';
+
+        // Gestion spéciale pour la fréquentation annuelle
+        if (key === 'Fréquentation annuelle 2021[2]') {
+            const userFreq = parseInt(userValue.replace(/\D/g, ''), 10);
+            const randomFreq = parseInt(randomValue.replace(/\D/g, ''), 10);
+            if (!isNaN(userFreq) && !isNaN(randomFreq)) {
+                const direction = userFreq > randomFreq ? '↑' : '↓';
+                resultsHTML += `
+                <div style="background-color: ${backgroundColor}; margin: 2px; padding: 5px;">
+                    <strong>${key}:</strong> ${userValue} (${direction})
+                </div>`;
+            }
+        } else {
+            resultsHTML += `
+            <div style="background-color: ${backgroundColor}; margin: 2px; padding: 5px;">
+                <strong>${key}:</strong> ${userValue}
+            </div>`;
+        }
     });
 
     document.getElementById('comparison-results').innerHTML = resultsHTML;
 }
+
 
 
 function highlightSuggestion(suggestions, index) {
