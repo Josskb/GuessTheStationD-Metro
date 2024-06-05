@@ -2,7 +2,7 @@
     width: 100px;
     height: 100px;
     margin: auto;
-    display: none;
+    position: relative;
 }
 
 a {
@@ -19,6 +19,7 @@ body {
     align-items: center;
     flex-direction: column;
     height: 100vh;
+    position: relative;
 }
 
 #description {
@@ -82,7 +83,6 @@ body {
 
 .clickable {
     position: relative;
-    display: inline-block;
     padding-bottom: 5px;
     font-family: parisine;
     font-weight: 1000;
@@ -159,6 +159,7 @@ footer{
     border-radius: 10px;
     padding: 20px;
     font-family: parisine;
+    position: relative;
 }
 
 #submit{
@@ -189,10 +190,47 @@ footer{
     background-color: #f0f0f0;
 }
 
+.suggestion-item.highlight {
+    background-color: #8d8b8b;  
+}
+
+
 #suggestions img {
     margin-right: 10px;
 }
 
+#comparison-results div {
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+
+form {
+    margin-top: 20px;
+    font-family: parisine;
+    font-size: large;
+    font-weight: 800;
+    border-radius: 10%;
+    box-sizing: 0px;
+}
+
+#submitform{
+    background-color: #FFC759;
+    border-radius: 10px;
+    font-weight: 300;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-family: parisine;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+    
+}
+#information{
+    display: flex;
+    flex-direction: column;
+}
 
 
 @font-face {
