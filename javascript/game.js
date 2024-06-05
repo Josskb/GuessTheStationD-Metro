@@ -2,15 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputField = document.getElementById('answer');
 
     async function loadStationData() {
-        const response = await fetch("/json/metro_stations.json"); // Ajustez le chemin selon votre structure de dossiers
+        const response = await fetch("/json/metro_stations.json"); 
         const stations = await response.json();
-        return stations;  // Retourner l'objet complet de chaque station
+        return stations;  
     }
     async function showSuggestions(value) {
         const stations = await loadStationData();
         const suggestions = stations.filter(station => station.Station.toLowerCase().startsWith(value.toLowerCase()));
-        
-        // Affichage des suggestions avec les images
         let suggestionsHTML = '';
         suggestions.forEach(station => {
             suggestionsHTML += `
@@ -32,21 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Fonction pour mettre à jour la valeur de l'entrée avec la station sélectionnée
 function selectStation(stationName) {
     const inputField = document.getElementById('answer');
-    inputField.value = stationName;  // Met à jour le champ de texte avec le nom de la station
-    document.getElementById('suggestions').innerHTML = '';  // Efface les suggestions
+    inputField.value = stationName;  
+    document.getElementById('suggestions').innerHTML = '';  
 }
 
-
-
-// Assume the stations are loaded and stored in 'stations' variable
-
-
 document.addEventListener('DOMContentLoaded', async function() {
-    stations = await loadStationData(); // Load the data once when the document is ready
-    selectRandomStation(); // Select a random station when the page loads
+    stations = await loadStationData(); 
+    selectRandomStation(); 
 });
 
 // Function to load station data (reusing earlier load function)
@@ -77,7 +69,6 @@ document.getElementById('answer').addEventListener('keydown', function(event) {
     const suggestions = document.querySelectorAll('.suggestion-item');
     const currentIndex = Array.from(suggestions).findIndex(item => item.classList.contains('highlight'));
 
-    // Gérer la navigation par flèches et la sélection
     if (event.key === 'ArrowDown') {
         const nextIndex = currentIndex < suggestions.length - 1 ? currentIndex + 1 : 0;
         highlightSuggestion(suggestions, nextIndex);
@@ -88,12 +79,12 @@ document.getElementById('answer').addEventListener('keydown', function(event) {
         event.preventDefault();
     } else if (event.key === 'Enter') {
         if (currentIndex >= 0) {
-            // Sélectionner la suggestion actuelle
+            
             suggestions[currentIndex].click();
             event.preventDefault();
         } else {
-            // Ici, l'utilisateur n'a pas navigué dans les suggestions mais appuie sur Entrée
-            checkAnswer(); // Appel de la fonction qui gère la vérification
+            
+            checkAnswer(); 
             event.preventDefault();
         }
     }
@@ -110,37 +101,65 @@ function checkAnswer() {
     }
 }
 
+red = "#EA895F";
+green = "#7ECA58";
+blue = '#5F9BEA';
+
 function compareStations(userStation, randomStation) {
     const keys = ['Station', 'Ligne', 'Rang alpha-bétique', "Date d'ouverture", 'Situation', 'Commune', 'Fréquentation annuelle 2021[2]'];
-    let resultsHTML = '';
+    let resultsHTML = '<tr>';
 
     keys.forEach(key => {
-        const userValue = userStation[key] || 'N/A';
-        const randomValue = randomStation[key] || 'N/A';
-        const isMatch = userValue === randomValue;
-        let backgroundColor = isMatch ? 'green' : 'red';
+        let userValue = userStation[key] || 'N/A';
+        let randomValue = randomStation[key] || 'N/A';
+        let color = red;  // Default color for non-matching items
 
-        // Gestion spéciale pour la fréquentation annuelle
-        if (key === 'Fréquentation annuelle 2021[2]') {
-            const userFreq = parseInt(userValue.replace(/\D/g, ''), 10);
-            const randomFreq = parseInt(randomValue.replace(/\D/g, ''), 10);
-            if (!isNaN(userFreq) && !isNaN(randomFreq)) {
-                const direction = userFreq > randomFreq ? '↑' : '↓';
-                resultsHTML += `
-                <div style="background-color: ${backgroundColor}; margin: 2px; padding: 5px;">
-                    <strong>${key}:</strong> ${userValue} (${direction})
-                </div>`;
-            }
-        } else {
-            resultsHTML += `
-            <div style="background-color: ${backgroundColor}; margin: 2px; padding: 5px;">
-                <strong>${key}:</strong> ${userValue}
-            </div>`;
+        // Special handling for Ligne to replace number with image
+        if (key === 'Ligne') {
+            userValue = formatLineToImage(userValue);
+            randomValue = formatLineToImage(randomValue);
         }
+
+        if (key === 'Fréquentation annuelle 2021[2]') {
+            // Format both user and random frequencies to compare as integers
+            let userFreq = parseInt(userValue.replace(/\D/g, ''), 10);
+            let randomFreq = parseInt(randomValue.replace(/\D/g, ''), 10);
+
+            // Convert back to nicely formatted strings for display
+            userValue = isNaN(userFreq) ? 'N/A' : userFreq.toLocaleString();
+            randomValue = isNaN(randomFreq) ? 'N/A' : randomFreq.toLocaleString();
+
+            if (!isNaN(userFreq) && !isNaN(randomFreq)) {
+                color = userFreq === randomFreq ? green : (userFreq > randomFreq ? 'orange' : blue);
+            }
+        } else if (userValue === randomValue) {
+            color = green;  // Matching items are green
+        }
+
+        // Append each comparison result to the same row
+        resultsHTML += `<td style="background-color: ${color};">${userValue}</td>`;
     });
 
-    document.getElementById('comparison-results').innerHTML = resultsHTML;
+    resultsHTML += '</tr>';
+    document.getElementById('table_result').innerHTML += resultsHTML;
 }
+
+function formatLineToImage(lineNumbers) {
+    // Assuming lineNumbers is a string like "(6), (14)"
+    if (!lineNumbers) return 'N/A'; 
+    const basePath = "../img/metrostation/";  // Path to your image folder
+    return lineNumbers.split(', ').map(lineNumber => {
+        // Extract the line number and handle 'bis' if present
+        const line = lineNumber.match(/(\d+)(bis)?/i);
+        const lineId = line ? line[1] + (line[2] ? line[2] : '') : ''; // Constructs '3bis' if 'bis' is present
+
+        return `<img src="${basePath}${lineId}.png" alt="Line ${lineId}" style="height: 20px;">`;
+    }).join(' ');
+    
+}
+console.log();
+
+
 
 
 

@@ -217,10 +217,15 @@ footer{
     margin-right: 10px;
 }
 
-#comparison-results div {
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
+#comparison-title{
+    text-decoration: underline;
+    text-underline-position: under;
+    padding-top: 15px;
+}
+
+#table_result{
+    text-align: center;
+    text-decoration: none;
 }
 
 
