@@ -24,6 +24,8 @@ body{
 
 
 #title {
+  position: absolute;
+  z-index: 10;
   animation: fadeIn 1s linear infinite;
   animation-play-state: paused;
   animation-delay: calc(var(--scroll) * -2s);
