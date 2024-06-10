@@ -275,7 +275,36 @@ form {
 #information{
     display: flex;
     flex-direction: column;
+    
 }
+
+th{
+    text-shadow: 0.3px 0.3px 0.3px #000;
+}
+
+td {
+    position: relative; 
+    text-align: center;  
+    vertical-align: middle;  
+    height: 50px; 
+    text-shadow: 1px 1px 1px #000;
+}
+
+td::before {
+    content: "";  /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;  /* Set the desired opacity of the image here */
+    z-index: -1;  /* Ensure the image is behind the content */
+}
+
+
 
 
 @font-face {

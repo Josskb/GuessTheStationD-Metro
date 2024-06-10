@@ -1,10 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const inputField = document.getElementById('answer');
 
     async function loadStationData() {
-        const response = await fetch("/json/metro_stations.json"); 
+        const response = await fetch("/json/metro_stations.json");
         const stations = await response.json();
-        return stations;  
+        return stations;
     }
     async function showSuggestions(value) {
         const stations = await loadStationData();
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         document.getElementById('suggestions').innerHTML = suggestionsHTML;
     }
-    
+
     inputField.addEventListener('input', () => {
         const inputValue = inputField.value;
         if (inputValue.length > 0) {
@@ -32,40 +32,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function selectStation(stationName) {
     const inputField = document.getElementById('answer');
-    inputField.value = stationName;  
-    document.getElementById('suggestions').innerHTML = '';  
+    inputField.value = stationName;
+    document.getElementById('suggestions').innerHTML = '';
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-    stations = await loadStationData(); 
-    selectRandomStation(); 
+document.addEventListener('DOMContentLoaded', async function () {
+    stations = await loadStationData();
+    selectRandomStation();
 });
 
 // Function to load station data (reusing earlier load function)
 async function loadStationData() {
-    const response = await fetch("/json/metro_stations.json"); // Adjust the path as needed
+    const response = await fetch("/json/metro_stations.json"); 
     const data = await response.json();
     return data;
 }
 
-let selectedStation = null; // Store the selected station
-// Function to select a random station and display it
+let selectedStation = null; 
 function selectRandomStation() {
     if (stations.length > 0) {
         const randomIndex = Math.floor(Math.random() * stations.length);
-        selectedStation = stations[randomIndex]; // Stockez la station sélectionnée
+        selectedStation = stations[randomIndex]; 
         document.getElementById('random-station').textContent = selectedStation.Station;
-        console.log(selectedStation.Station); 
+        console.log(selectedStation.Station);
     }
 }
 
 console.log(document.getElementById('submit'));
-document.getElementById('submit').addEventListener('click', function() {
+document.getElementById('submit').addEventListener('click', function () {
     const userAnswer = document.getElementById('answer').value;
     checkAnswer();
 });
 
-document.getElementById('answer').addEventListener('keydown', function(event) {
+document.getElementById('answer').addEventListener('keydown', function (event) {
     const suggestions = document.querySelectorAll('.suggestion-item');
     const currentIndex = Array.from(suggestions).findIndex(item => item.classList.contains('highlight'));
 
@@ -79,12 +78,12 @@ document.getElementById('answer').addEventListener('keydown', function(event) {
         event.preventDefault();
     } else if (event.key === 'Enter') {
         if (currentIndex >= 0) {
-            
+
             suggestions[currentIndex].click();
             event.preventDefault();
         } else {
-            
-            checkAnswer(); 
+
+            checkAnswer();
             event.preventDefault();
         }
     }
@@ -93,7 +92,7 @@ document.getElementById('answer').addEventListener('keydown', function(event) {
 function checkAnswer() {
     const userAnswer = document.getElementById('answer').value;
     const userStation = stations.find(station => station.Station.toLowerCase() === userAnswer.toLowerCase());
-    
+
     if (userStation) {
         compareStations(userStation, selectedStation);
     } else {
@@ -104,6 +103,7 @@ function checkAnswer() {
 red = "#EA895F";
 green = "#7ECA58";
 blue = '#5F9BEA';
+orange = '#FFA500';
 
 function compareStations(userStation, randomStation) {
     const keys = ['Station', 'Ligne', 'Rang alpha-bétique', "Date d'ouverture", 'Situation', 'Commune', 'Fréquentation annuelle 2021[2]'];
@@ -112,61 +112,158 @@ function compareStations(userStation, randomStation) {
     keys.forEach(key => {
         let userValue = userStation[key] || 'N/A';
         let randomValue = randomStation[key] || 'N/A';
-        let color = red;  // Default color for non-matching items
+        let color = red;
+        let arrow = '';
+        const basePath = "../img/";
+        backgroundImg = '';
 
-        // Special handling for Ligne to replace number with image
         if (key === 'Ligne') {
             userValue = formatLineToImage(userValue);
             randomValue = formatLineToImage(randomValue);
+            const userLines = parseLines(userStation[key]);
+            const randomLines = parseLines(randomStation[key]);
+            const isMatch = userLines.some(line => randomLines.includes(line));
+            color = isMatch ? 'orange' : red;  
         }
 
         if (key === 'Fréquentation annuelle 2021[2]') {
-            // Format both user and random frequencies to compare as integers
             let userFreq = parseInt(userValue.replace(/\D/g, ''), 10);
             let randomFreq = parseInt(randomValue.replace(/\D/g, ''), 10);
 
-            // Convert back to nicely formatted strings for display
             userValue = isNaN(userFreq) ? 'N/A' : userFreq.toLocaleString();
             randomValue = isNaN(randomFreq) ? 'N/A' : randomFreq.toLocaleString();
-
-            if (!isNaN(userFreq) && !isNaN(randomFreq)) {
-                color = userFreq === randomFreq ? green : (userFreq > randomFreq ? 'orange' : blue);
+            let comparisonResult = compareValues(userValue, randomValue, key);
+            color = comparisonResult.color;
+            arrow = comparisonResult.arrow;
+            if (comparisonResult.arrow !== 'no_arrow') {
+                backgroundImg = `background-image: url('${basePath}${comparisonResult.arrow}.png'); background-size: contain; background-repeat: no-repeat; background-position: center;`;
             }
-        } else if (userValue === randomValue) {
-            color = green;  // Matching items are green
+        
+        }
+        if (key === "Date d'ouverture") {
+            let comparisonResult = compareValues(userValue, randomValue, key);
+            color = comparisonResult.color;
+            arrow = comparisonResult.arrow;
+            if (comparisonResult.arrow !== 'no_arrow') {
+                backgroundImg = `background-image: url('${basePath}${comparisonResult.arrow}.png'); background-size: contain; background-repeat: no-repeat; background-position: center; `;
+            }
         }
 
-        // Append each comparison result to the same row
-        resultsHTML += `<td style="background-color: ${color};">${userValue}</td>`;
+        if (key === "Rang alpha-bétique") {
+            userValue = userValue.toLowerCase();
+            randomValue = randomValue.toLowerCase();
+            let comparisonResult = compareValues(userValue, randomValue, key);
+            color = comparisonResult.color;
+            arrow = comparisonResult.arrow;
+            if (comparisonResult.arrow !== 'no_arrow') {
+                backgroundImg = `background-image: url('${basePath}${comparisonResult.arrow}.png'); background-size: contain; background-repeat: no-repeat; background-position: center;`;
+            }
+        }
+        if (key === 'Commune'){
+            let userCommune = userValue.toLowerCase();
+            let randomCommune = randomValue.toLowerCase();
+            let comparisonResult = compareValues(userCommune, randomCommune, key);
+            color = comparisonResult.color;
+            arrow = comparisonResult.arrow;
+            if (comparisonResult.arrow !== 'no_arrow') {
+                backgroundImg = `background-image: url('${basePath}${comparisonResult.arrow}.png'); background-size: contain; background-repeat: no-repeat; background-position: center;`;
+            }
+        }
+        else if (userValue === randomValue) {
+            color = green;
+        }
+        resultsHTML += `<td style="background-color: ${color};${backgroundImg}">${userValue}</td>`;
     });
 
     resultsHTML += '</tr>';
     document.getElementById('table_result').innerHTML += resultsHTML;
 }
 
-function formatLineToImage(lineNumbers) {
-    // Assuming lineNumbers is a string like "(6), (14)"
-    if (!lineNumbers) return 'N/A'; 
-    const basePath = "../img/metrostation/";  // Path to your image folder
-    return lineNumbers.split(', ').map(lineNumber => {
-        // Extract the line number and handle 'bis' if present
-        const line = lineNumber.match(/(\d+)(bis)?/i);
-        const lineId = line ? line[1] + (line[2] ? line[2] : '') : ''; // Constructs '3bis' if 'bis' is present
+function compareValues(userVal, randomVal, type) {
+    let color = red;
+    let arrow = 'no_arrow'; 
+    console.log(userVal, randomVal, type)
+    if (type === "Date d'ouverture") {
+        const userDate = parseFrenchDate(userVal);
+        const randomDate = parseFrenchDate(randomVal);
+        console.log("date", userDate, randomDate);
+        if (!isNaN(userDate) && !isNaN(randomDate)) {
+            if (userDate > randomDate) {
+                arrow = 'down_arrow';
+            } else if (userDate < randomDate) {
+                arrow = 'up_arrow';
+            }
+            else if (userDate === randomDate){
+                color = green;
+            }
+    }
+    } 
+    if (type === 'Rang alpha-bétique') {
+        const userNum = parseFloat(userVal);
+        const randomNum = parseFloat(randomVal);
+        if (userNum > randomNum) {
+            arrow = 'up_arrow';
+        }else if (userNum < randomNum) {
+            arrow = 'down_arrow';
+        }
+        else if (userNum === randomNum){
+            color = green;
+        }
+    }
+    if (type === 'Fréquentation annuelle 2021[2]') {
+        const userNum = parseFloat(userVal);
+        const randomNum = parseFloat(randomVal);
+        if (!isNaN(userNum) && !isNaN(randomNum)) {
+            if (userNum > randomNum) {
+                arrow = 'down_arrow';
+            } else if (userNum < randomNum) {
+                arrow = 'up_arrow';
+            }
+    }}
+    if (type === 'Commune'){
+        const userCity = userVal.match(/^\D+/); 
+        const randomCity = randomVal.match(/^\D+/);
+        if (userVal === randomVal) {
+            color = green;
+        } else if (userCity && randomCity && userCity[0] === randomCity[0]) {
+            color = orange;
+        }
+        else color = red;
+    }
+    return { color, arrow };
+}
 
+
+function parseFrenchDate(dateStr) {
+    const months = {
+        'janvier': 'January', 'février': 'February', 'mars': 'March', 'avril': 'April',
+        'mai': 'May', 'juin': 'June', 'juillet': 'July', 'août': 'August',
+        'septembre': 'September', 'octobre': 'October', 'novembre': 'November', 'décembre': 'December'
+    };
+    const engDateStr = dateStr.replace(/(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)/gi, 
+                                       matched => months[matched.toLowerCase()]);
+
+    return new Date(engDateStr).getTime();
+}
+
+function parseLines(linesString) {
+    if (!linesString) return [];
+    return linesString.match(/(\d+)(bis)?/gi) || []; 
+}
+
+function formatLineToImage(lineNumbers) {
+    if (!lineNumbers) return 'N/A';
+    const basePath = "../img/metrostation/";
+    return lineNumbers.split(', ').map(lineNumber => {
+        const line = lineNumber.match(/(\d+)(bis)?/i);
+        const lineId = line ? line[1] + (line[2] ? line[2] : '') : ''; 
         return `<img src="${basePath}${lineId}.png" alt="Line ${lineId}" style="height: 20px;">`;
     }).join(' ');
-    
 }
 console.log();
 
-
-
-
-
 function highlightSuggestion(suggestions, index) {
-    // Supprimer les highlights existants
     suggestions.forEach(item => item.classList.remove('highlight'));
-    // Ajouter un highlight à l'élément courant
     suggestions[index].classList.add('highlight');
 }
 
