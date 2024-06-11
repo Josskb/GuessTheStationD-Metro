@@ -43,6 +43,37 @@ body {
     filter: blur(5px) brightness(0.75);
 }
 
+
+.popover {
+    position: fixed; 
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    display: none; 
+    max-width: 300px; 
+    word-wrap: break-word; 
+    text-align: left; 
+    font-size: 12px;
+    font-family: parisine;
+}
+
+
+.popover.visible {
+    display: block; 
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.popover.visible {
+    animation: fadeIn 0.5s ease-out; 
+}
+
+
 #custom-cursor {
     width: 20px;
     height: 20px;

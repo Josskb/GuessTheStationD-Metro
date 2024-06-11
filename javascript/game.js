@@ -92,13 +92,37 @@ document.getElementById('answer').addEventListener('keydown', function (event) {
 function checkAnswer() {
     const userAnswer = document.getElementById('answer').value;
     const userStation = stations.find(station => station.Station.toLowerCase() === userAnswer.toLowerCase());
-
     if (userStation) {
         compareStations(userStation, selectedStation);
     } else {
         alert("Station not found. Please try again.");
     }
 }
+
+document.querySelectorAll('#comparison-title th').forEach(element => {
+    element.addEventListener('mouseenter', function() {
+        const info = this.getAttribute('data-info');
+        if (info) {
+            const popover = document.createElement('div');
+            popover.className = 'popover';
+            popover.textContent = info; 
+            document.body.appendChild(popover);
+            const rect = this.getBoundingClientRect();
+            popover.style.top = (rect.bottom + window.scrollY) + 'px';
+            popover.style.left = rect.left + 'px';
+            popover.classList.add('visible');
+            this._popover = popover;
+        }
+    });
+
+    element.addEventListener('mouseleave', function() {
+        if (this._popover) {
+            document.body.removeChild(this._popover);
+            this._popover = null;
+        }
+    });
+});
+
 
 red = "#EA895F";
 green = "#7ECA58";
