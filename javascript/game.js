@@ -104,10 +104,19 @@ red = "#EA895F";
 green = "#7ECA58";
 blue = '#5F9BEA';
 orange = '#FFA500';
+let attemptCount = 0;
 
 function compareStations(userStation, randomStation) {
+    resetAnimations();
     const keys = ['Station', 'Ligne', 'Rang alpha-bétique', "Date d'ouverture", 'Situation', 'Commune', 'Fréquentation annuelle 2021[2]'];
-    let resultsHTML = '<tr>';
+    let resultsHTML = '<tr class="new-row-animation">';
+
+    attemptCount++;
+    const counterDiv = document.getElementById('attemptCounter');
+    if (attemptCount > 0) {
+        counterDiv.style.display = 'block'; 
+        counterDiv.innerHTML = 'Attempts: <strong>' + attemptCount + '</strong>'; 
+    }
 
     keys.forEach(key => {
         let userValue = userStation[key] || 'N/A';
@@ -166,13 +175,22 @@ function compareStations(userStation, randomStation) {
             color = comparisonResult.color;
             arrow = comparisonResult.arrow;
             if (comparisonResult.arrow !== 'no_arrow') {
-                backgroundImg = `background-image: url('${basePath}${comparisonResult.arrow}.png'); background-size: contain; background-repeat: no-repeat; background-position: center;`;
+                backgroundImg = `background-image: url('${basePath}${arrow}.png'); animation-delay: 0.1s;background-size: contain; background-repeat: no-repeat; background-position: center; style `;
             }
+        }
+        if (key === 'Situation') {
+            let comparisonResult = compareValues(userValue, randomValue, key);
+            color = comparisonResult.color;
         }
         else if (userValue === randomValue) {
             color = green;
         }
-        resultsHTML += `<td style="background-color: ${color};${backgroundImg}">${userValue}</td>`;
+        if (arrow !== 'no_arrow') {
+            resultsHTML += `<td style="background-color: ${color}; ${backgroundImg}">${userValue}</td>`;
+        }
+        else {
+            resultsHTML += `<td style="background-color: ${color};">${userValue}</td>`;
+        }
     });
 
     resultsHTML += '</tr>';
@@ -230,8 +248,32 @@ function compareValues(userVal, randomVal, type) {
         }
         else color = red;
     }
+
+    if (type === 'Situation') {
+        userVal = userVal.toLowerCase();
+        randomVal = randomVal.toLowerCase();
+        console.log(userVal, randomVal);
+        console.log(userVal.includes(randomVal), randomVal.includes(userVal));
+        if (userVal === randomVal) {
+            color = green;
+        } else if (userVal.includes(randomVal)) {
+            color = orange;
+        }
+        else{
+            color = red;
+        }
+    }
     return { color, arrow };
 }
+
+function resetAnimations() {
+    // Ensure you select the <tr> elements within the table
+    document.querySelectorAll('#table_result tr').forEach(row => {
+        console.log("Removing animation class from rows");
+        row.classList.remove('new-row-animation');
+    });
+}
+
 
 
 function parseFrenchDate(dateStr) {
