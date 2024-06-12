@@ -27,21 +27,12 @@ body {
     font-weight: 300;
     font-variation-settings: "wght" 800, "wdth" 125;
     text-align: center;
-    margin-top: 20px;
+
     font-family: parisine;
     color: white;
 }
 
-#background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: blur(5px) brightness(0.75);
-}
+
 
 
 .popover {
@@ -92,7 +83,7 @@ body {
 }
 
 #RATTP {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     display: flex;
@@ -120,15 +111,6 @@ body {
     transform: scale(1.1);
 }
 
-#background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-}
 
 .clickable {
     position: relative;
@@ -172,9 +154,9 @@ body {
 }
 
 footer{
-    display: flex;
-    flex-direction: column;
-    bottom: 0;
+    position: absolute;
+    bottom: calc(var(--scroll) * -1000px);
+    width: 100%;
     text-align: center;
     color: white;
     font-size: 12px;
