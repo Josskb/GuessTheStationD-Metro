@@ -376,9 +376,58 @@ td:hover {
     animation: Counter 2s ease 0s 1 normal forwards;
 }
 
+#game-over {
+    font-weight: 800;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-family: parisine;
+    margin-top: 20px;
+    position: center;
+    cursor: default;
+    text-align: center;
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px;
+    display: none;
+    animation: game-over 4s ease 0s 1 normal forwards;
+}
+
+#play-again{
+    background-color: #FFC759;
+    border-radius: 10px;
+    font-weight: 300;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-family: parisine;
+    padding: 10px;
+    text-align: center;
+    cursor: default;
+}
+
+#found_station{
+    background-color: #FFC759;
+    border-radius: 10px;
+    font-weight: 300;
+    font-variation-settings: "wght" 800, "wdth" 125;
+    font-family: parisine;
+    padding: 10px;
+    text-align: center;
+    cursor: default;
+}
+
 @keyframes slideIn {
     from { transform: translateX(-100px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes game-over {
+	0% {
+		opacity: 0;
+		transform: translateY(-250px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes Counter {

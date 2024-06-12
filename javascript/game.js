@@ -1,14 +1,20 @@
+const selectedStations = new Set();
+
 document.addEventListener('DOMContentLoaded', function () {
     const inputField = document.getElementById('answer');
+    
 
     async function loadStationData() {
         const response = await fetch("/json/metro_stations.json");
         const stations = await response.json();
         return stations;
     }
+    
     async function showSuggestions(value) {
         const stations = await loadStationData();
-        const suggestions = stations.filter(station => station.Station.toLowerCase().startsWith(value.toLowerCase()));
+        const suggestions = stations.filter(station =>
+            station.Station.toLowerCase().startsWith(value.toLowerCase()) &&
+            !selectedStations.has(station.Station.toLowerCase()));
         let suggestionsHTML = '';
         suggestions.forEach(station => {
             suggestionsHTML += `
@@ -31,9 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function selectStation(stationName) {
-    const inputField = document.getElementById('answer');
-    inputField.value = stationName;
-    document.getElementById('suggestions').innerHTML = '';
+    document.getElementById('answer').value = stationName;
+    document.getElementById('suggestions').innerHTML = ''; 
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -62,6 +67,7 @@ console.log(document.getElementById('submit'));
 document.getElementById('submit').addEventListener('click', function () {
     const userAnswer = document.getElementById('answer').value;
     checkAnswer();
+    userAnswer.value = '';
 });
 
 document.getElementById('answer').addEventListener('keydown', function (event) {
@@ -92,12 +98,59 @@ document.getElementById('answer').addEventListener('keydown', function (event) {
 function checkAnswer() {
     const userAnswer = document.getElementById('answer').value;
     const userStation = stations.find(station => station.Station.toLowerCase() === userAnswer.toLowerCase());
-    if (userStation) {
+    
+    if (userStation && !selectedStations.has(userAnswer.toLowerCase())) {
         compareStations(userStation, selectedStation);
+    } else if (userAnswer === '') {
+        alert("Please enter a station name.");
+    } else if (selectedStations.has(userAnswer.toLowerCase())) {
+        alert("You have already guessed this station. Please try another one.");
     } else {
         alert("Station not found. Please try again.");
     }
+    if (userStation === selectedStation) {
+        win();
+    }
+    document.getElementById('answer').value = '';
+    selectedStations.add(userAnswer.toLowerCase());
 }
+
+function win() {
+    confetti({
+        particleCount: 100, 
+        spread: 70,         
+        origin: { y: 0.6 }  
+    });
+    confetti({
+        particleCount: 100, 
+        spread: 100,         
+        origin: { x : 0.4 }  
+    });
+    confetti({
+        particleCount: 100, 
+        spread: 70,         
+        origin: { x : 0.7 }  
+    });
+
+    document.getElementById('submit').disabled = true;
+    document.getElementById('answer').disabled = true;
+    document.getElementById('game-over').style.display = 'block';
+    document.getElementById('game-over').innerHTML = `
+    <h1>GG!</h1>
+    <p>The Metro Station was:</p>
+    <h2 id='found_station'>${selectedStation.Station} </h2>
+    <img src="${selectedStation.Image}" alt="${selectedStation.Station}" style="width: 100px;">
+    <p>with a number of <br>Attempts:</p>
+    <div id="attemptCounter">${attemptCount}</div>
+    
+    <p>Would you like to play again?</p>
+    <button id="play-again" onclick="window.location.reload()">Play Again</button>`;
+}
+
+function refreshPage() {
+    window.location.reload()
+}
+
 
 document.querySelectorAll('#comparison-title th').forEach(element => {
     element.addEventListener('mouseenter', function() {
@@ -224,11 +277,9 @@ function compareStations(userStation, randomStation) {
 function compareValues(userVal, randomVal, type) {
     let color = red;
     let arrow = 'no_arrow'; 
-    console.log(userVal, randomVal, type)
     if (type === "Date d'ouverture") {
         const userDate = parseFrenchDate(userVal);
         const randomDate = parseFrenchDate(randomVal);
-        console.log("date", userDate, randomDate);
         if (!isNaN(userDate) && !isNaN(randomDate)) {
             if (userDate > randomDate) {
                 arrow = 'down_arrow';
@@ -276,8 +327,6 @@ function compareValues(userVal, randomVal, type) {
     if (type === 'Situation') {
         userVal = userVal.toLowerCase();
         randomVal = randomVal.toLowerCase();
-        console.log(userVal, randomVal);
-        console.log(userVal.includes(randomVal), randomVal.includes(userVal));
         if (userVal === randomVal) {
             color = green;
         } else if (userVal.includes(randomVal)) {
@@ -291,9 +340,7 @@ function compareValues(userVal, randomVal, type) {
 }
 
 function resetAnimations() {
-    // Ensure you select the <tr> elements within the table
     document.querySelectorAll('#table_result tr').forEach(row => {
-        console.log("Removing animation class from rows");
         row.classList.remove('new-row-animation');
     });
 }
@@ -326,7 +373,6 @@ function formatLineToImage(lineNumbers) {
         return `<img src="${basePath}${lineId}.png" alt="Line ${lineId}" style="height: 20px;">`;
     }).join(' ');
 }
-console.log();
 
 function highlightSuggestion(suggestions, index) {
     suggestions.forEach(item => item.classList.remove('highlight'));
