@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <script defer src="../javascript/logo.js"></script>
+    <link rel="icon" href="../img/RATTP.png">
     <script defer src="../javascript/game.js"></script>
     <script defer src="../javascript/cursor.js"></script>
     <title>Game</title>
@@ -17,6 +18,7 @@
         <img id="RATTP" src="../img/RATTP.png" alt="RATTP">
     </a>
 </header>
+
 <body>
     <div id="custom-cursor">
 
@@ -26,6 +28,7 @@
         <h1 id="title_g">Guess the metro station</h1>
         <p>Will you find it ?</p>
     </div>
+    <div id="attemptCounter" style="display: none;">Attempts: 0</div>
     <div id="answer-input">
         <div>
             <input type="text" id="answer" placeholder="Enter your answer">
@@ -33,16 +36,36 @@
         </div>
         <div id="suggestions"></div>
     </div>
-    <div id="comparison-results"></div>
+    <div id="comparison-results">
+        <table cellpadding="10px">
+            <thead>
+                <thead>
+                    <tr id="comparison-title">
+                        <th data-info="Nom de la station">Station</th>
+                        <th data-info="Lignes de métro associées">Ligne</th>
+                        <th data-info="Classement alphabétique des stations">Rang alpha-bétique</th>
+                        <th data-info="Date à laquelle la station a été ouverte">Date d'ouverture</th>
+                        <th data-info="Souterraine, Fleur de sol ou Aérienne">Situation</th>
+                        <th data-info="Commune où la station est située">Commune</th>
+                        <th data-info="Nombre total de passagers annuels en 2021">Fréquentation annuelle 2021</th>
+                    </tr>
+                </thead>
+            <tbody id=table_result>
+            </tbody>
+        </table>
+    </div>
+
 
     <div id="random-station-info">
         <h3>Random Metro Station:</h3>
         <p id="random-station"></p>
     </div>
-    
+
 </body>
 <footer>
     <a class="clickable" id="aboutus" href="aboutus.html">About Us</a>
+    <p class="Confidentiality">© 2024 RATTP</p>
+    <p class="Confidentiality">Confidentiality Politcs</p>
 </footer>
 
 </html>
