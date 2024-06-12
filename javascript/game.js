@@ -58,7 +58,6 @@ function selectRandomStation() {
     if (stations.length > 0) {
         const randomIndex = Math.floor(Math.random() * stations.length);
         selectedStation = stations[randomIndex]; 
-        document.getElementById('random-station').textContent = selectedStation.Station;
         console.log(selectedStation.Station);
     }
 }
