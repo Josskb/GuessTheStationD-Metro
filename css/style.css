@@ -140,10 +140,9 @@ a {
 }
 
 #RATTP {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
-    display: flex;
     width: 6%;
     transition: transform 0.2s ease-in-out;
     margin-top: 20px;
@@ -486,6 +485,7 @@ form {
 th{
     text-shadow: 0.3px 0.3px 0.3px #000;
     cursor: default;
+    word-wrap: break-word;
 }
 
 td {
@@ -497,6 +497,7 @@ td {
     cursor: default;
     box-shadow: inset 0 0 5px #000000bd;
     transition: background-blend-mode 10s ease-in-out;
+    word-wrap: break-word;
 }
 
 td:hover {
@@ -507,10 +508,9 @@ td:hover {
     animation: slideIn 0.5s ease-in-out;
 }
 
-.Confidentiality{
-    font-size: 7.5px;
+.Confidentiality {
+    font-size: max(7.5px, 1vw); /* Responsive font size */
     font-family: parisine;
-
 }
 
 ::-webkit-scrollbar {
@@ -534,8 +534,8 @@ td:hover {
     font-variation-settings: "wght" 800, "wdth" 125;
     font-family: parisine;
     margin-top: 20px;
-    position: center;
-    cursor: default;
+    position: relative;
+    cursor: pointer;
     text-align: center;
     background-color: white;
     border-radius: 30px;
@@ -564,6 +564,32 @@ td:hover {
     padding: 10px;
     text-align: center;
     cursor: default;
+}
+
+
+
+@media (max-width: 600px) {
+    td, th {
+        font-size: 14px; /* Increase font size for readability */
+        padding: 12px; /* Larger padding for easier touch interaction */
+    }
+
+    #play-again, #found_station, #game-over {
+        font-size: 16px; /* Larger font size for better visibility on small screens */
+        padding: 15px; /* More padding for easier interaction */
+    }
+}
+
+@media (min-width: 601px) {
+    td, th {
+        font-size: 16px; /* Appropriate font size for desktops */
+        padding: 15px; /* Adequate padding for desktop interaction */
+    }
+
+    #play-again, #found_station, #game-over {
+        font-size: 18px; /* Adequate font size for larger displays */
+        padding: 20px; /* Ample padding for desktop usability */
+    }
 }
 
 @keyframes slideIn {
