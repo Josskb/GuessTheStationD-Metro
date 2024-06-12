@@ -1,6 +1,31 @@
+/* Base styles */
+body {
+    background-color: #8d8b8b;
+    font-family: studiofeixen-variable, Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh; /* Using vh for viewport height is more appropriate */
+    position: relative;
+}
+
+#background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+    filter: blur(5px);
+}
+
 #logo {
-    width: 100px;
-    height: 100px;
+    width: 80vw; /* Max width to avoid overly large sizes on desktop */
+    max-width: 300px; /* Cap max size to maintain usability on large screens */
+    height: auto; /* Maintain aspect ratio */
     margin: auto;
     position: relative;
 }
@@ -10,27 +35,46 @@ a {
     color: white;
 }
 
-body {
-    background-color: #8d8b8b;
-    margin: 0;
-    padding: 0;
-    font-family: studiofeixen-variable, studiofeixen, Arial, Helvetica, sans-serif;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    position: relative;
-}
-
 #description {
-    font-size: 20px;
-    font-weight: 300;
+    font-size: 2vw; /* Make font size responsive */
+    font-weight: 300; /* Corrected font-weight without 'px' */
     font-variation-settings: "wght" 800, "wdth" 125;
     text-align: center;
-
     font-family: parisine;
     color: white;
 }
+
+/* Media Queries for further adjustments */
+@media (max-width: 600px) {
+    #logo {
+        width: 50vw; /* Smaller logo on smaller screens */
+    }
+
+    #description {
+        font-size: 4vw; /* Slightly larger font size on small screens */
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    #logo {
+        width: 30vw; /* Moderate size on tablets */
+    }
+
+    #description {
+        font-size: 2.5vw; /* Adjust font size for tablets */
+    }
+}
+
+@media (min-width: 1025px) {
+    #logo {
+        width: 15vw; /* Smaller relative size on larger screens */
+    }
+
+    #description {
+        font-size: 20px; /* Fixed font size on large screens for consistency */
+    }
+}
+
 
 
 .popover {
@@ -45,6 +89,14 @@ body {
     text-align: left; 
     font-size: 12px;
     font-family: parisine;
+}
+
+@media (max-width: 600px) {
+    .popover {
+        max-width: 95%; /* More width on very small screens */
+        padding: 15px; /* Larger padding for touch screens */
+        font-size: 1.5rem; /* Larger font size for better readability */
+    }
 }
 
 
@@ -78,6 +130,13 @@ body {
 #custom-cursor.expand {
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    /* Hide custom cursor on touch devices */
+    #custom-cursor {
+        display: none;
+    }
 }
 
 #RATTP {
@@ -140,6 +199,36 @@ body {
     font-variation-settings: "wght" 800, "wdth" 125;
 }
 
+@media (max-width: 768px) {
+    #RATTP {
+        width: 15%; /* Larger width for better visibility */
+    }
+
+    #title {
+        font-size: 5vw; /* Larger font size for readability */
+        margin-top: 10vh; /* Increased top margin */
+    }
+
+    #gamebouton {
+        font-size: 5vw; /* Larger font size for better touch targets */
+    }
+}
+
+@media (max-width: 480px) {
+    #RATTP {
+        width: 20%; /* Even larger width for small screens */
+    }
+
+    #title {
+        font-size: 6vw;
+        margin-top: 15vh; /* More space on top */
+    }
+
+    #gamebouton {
+        font-size: 6vw;
+    }
+}
+
 #aboutus{
     margin-top: 20px;
     height: 100%;
@@ -200,6 +289,22 @@ footer{
     padding: 10px;
 }
 
+@media (max-width: 600px) {
+    #aboutus, footer, #title_g, #GuessTheStationdiv, #answer-input, #submit {
+        font-size: 1rem; /* Smaller font size for mobile */
+        padding: 15px; /* Slightly smaller padding */
+    }
+
+    #title_g {
+        font-size: 1.5rem; /* Slightly larger font for visibility */
+    }
+
+    #submit, #answer-input {
+        padding: 15px; /* Larger padding for easier interaction */
+        font-size: 1.25rem; /* Larger font size for readability */
+    }
+}
+
 #answer{
     background-color: transparent;
     border-color: transparent;
@@ -240,6 +345,44 @@ footer{
     text-align: center;
     text-decoration: none;
     cursor: default;
+}
+
+@media (max-width: 600px) {
+    #answer {
+        font-size: 16px; /* Larger font size for easier reading on small devices */
+    }
+
+    #suggestions .suggestion-item {
+        padding: 15px; /* Larger padding for easier touch */
+        font-size: 14px; /* Adjust font size for readability */
+    }
+
+    #suggestions img {
+        height: 25px; /* Adjust image size for smaller screens */
+    }
+
+    #comparison-title, #table_result {
+        font-size: 14px; /* Increase font size for visibility */
+    }
+}
+
+@media (min-width: 601px) {
+    #answer {
+        font-size: 18px; /* Adequate font size for desktops */
+    }
+
+    #suggestions .suggestion-item {
+        padding: 12px; /* Optimal padding for mouse interaction */
+        font-size: 16px; /* Clear and legible font size */
+    }
+
+    #suggestions img {
+        height: 35px; /* Slightly larger images for better visibility */
+    }
+
+    #comparison-title, #table_result {
+        font-size: 16px; /* Suitable font size for larger displays */
+    }
 }
 
 
@@ -308,6 +451,35 @@ form {
     flex-direction: column;
     cursor: default;
     
+}
+
+@media (max-width: 600px) {
+    form, #submitform, #attemptCounter, #paragraph, #nous, #information {
+        font-size: 1rem; /* Smaller font size for mobile */
+        padding: 15px; /* Larger padding for easier interaction */
+    }
+
+    #submitform, #attemptCounter {
+        font-size: 0.9rem; /* Even smaller font size for compact display */
+    }
+
+    #paragraph, #nous {
+        margin-top: 20px; /* Reduced top margin for tighter mobile layout */
+    }
+}
+
+@media (min-width: 601px) {
+    form, #submitform, #attemptCounter, #paragraph, #nous, #information {
+        font-size: 1.25rem; /* Larger font size for desktop */
+    }
+
+    #submitform, #attemptCounter {
+        font-size: 1.5rem; /* Bigger fonts for clear visibility */
+    }
+
+    #paragraph, #nous {
+        margin-top: 50px; /* More space on larger screens */
+    }
 }
 
 th{
