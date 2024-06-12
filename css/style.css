@@ -242,12 +242,13 @@ a {
 
 footer{
     position: relative;
-    bottom: calc(var(--scroll) * -1000px);
+    bottom: calc(var(--scroll));
     width: 100%;
     text-align: center;
     color: white;
     font-size: 12px;
     margin-bottom: 10px;
+    margin-top: 20px;
     font-family: parisine;
 
 }
